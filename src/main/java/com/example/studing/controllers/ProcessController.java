@@ -1,11 +1,10 @@
 package com.example.studing.controllers;
 
-import com.example.studing.entity.Strategy;
 import com.example.studing.services.ProcessService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.io.IOException;
 
 @Controller
 @RestController
@@ -19,14 +18,7 @@ public class ProcessController {
     }
 
     @PostMapping
-    public String executeStrategy(@RequestParam("strategyId") String strategyId) {
+    public String executeStrategy(@RequestParam("strategyId") String strategyId) throws IOException {
         return processService.executeStrategy(strategyId);
     }
-
-    @GetMapping("/{tacticName}")
-    public List<Strategy> getStrategiesByTactic(@PathVariable String tacticName) {
-        return processService.getStrategyByTacticName(tacticName);
-    }
-
-
 }
