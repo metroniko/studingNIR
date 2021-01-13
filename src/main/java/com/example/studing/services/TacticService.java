@@ -5,10 +5,12 @@ import com.example.studing.entity.Strategy;
 import com.example.studing.reposutory.StrategyRepository;
 import org.apache.commons.text.WordUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class TacticService {
@@ -29,6 +31,16 @@ public class TacticService {
     }
 
     public List<Strategy> getStrategiesByTactic(String tacticName) {
-        return strategyRepository.getStrategiesByTactic(tacticName);
+
+        List<Strategy> strategiesByTactic = strategyRepository.getStrategiesByTactic(tacticName);
+        Set<String> collect = new HashSet<>();
+
+        List<Strategy> strategyList = strategiesByTactic.stream()
+                .filter(el -> collect.add(el.getTechniqueNumber()
+                        .split("\\.")[0]))
+                .collect(Collectors.toList());
+
+
+        return strategyList;
     }
 }

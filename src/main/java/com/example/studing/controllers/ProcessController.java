@@ -18,7 +18,7 @@ public class ProcessController {
     }
 
     @PostMapping
-    public String executeStrategy(@RequestParam("strategyId") String strategyId) throws IOException {
+        public String executeStrategy(@RequestParam(value = "strategyId") String strategyId) throws IOException {
         return processService.executeStrategy(strategyId);
     }
 }
