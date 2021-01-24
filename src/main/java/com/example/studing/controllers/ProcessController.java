@@ -1,12 +1,14 @@
 package com.example.studing.controllers;
 
+import com.example.studing.dto.ExecutionResultDto;
 import com.example.studing.services.ProcessService;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
-@Controller
 @RestController
 @RequestMapping("/activate")
 public class ProcessController {
@@ -18,7 +20,9 @@ public class ProcessController {
     }
 
     @PostMapping
-        public String executeStrategy(@RequestParam(value = "strategyId") String strategyId) throws IOException {
-        return processService.executeStrategy(strategyId);
+    public ExecutionResultDto executeStrategy(@RequestParam(value = "strategyId") String strategyId) throws IOException {
+        ExecutionResultDto resultDto = new ExecutionResultDto();
+        resultDto.setResult(processService.executeStrategy(strategyId));
+        return resultDto;
     }
 }

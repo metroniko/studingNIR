@@ -15,4 +15,6 @@ public interface StrategyRepository extends JpaRepository<Strategy, Integer> {
 
     @Query(value = "select distinct s.tactic from Strategy s")
     List<String> getAllTacticName();
+
+    Strategy getStrategyByTechniqueNumber(String techniqueNumber);
 }

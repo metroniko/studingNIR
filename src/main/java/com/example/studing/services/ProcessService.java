@@ -31,9 +31,10 @@ public class ProcessService {
     }
 
     public String executeStrategy(String id) throws IOException {
-        Strategy strategy = strategyRepository.getStrategiesByTestGUID(id);
+        Strategy strategy = strategyRepository.getStrategyByTechniqueNumber(id);
         StringBuilder executeStrategy = executeService(strategy);
-        return executeStrategy.toString();
+        String s = executeStrategy.toString();
+        return s;
     }
 
 
@@ -51,7 +52,7 @@ public class ProcessService {
                 powerShellProcess.getInputStream()));
         StringBuilder str = new StringBuilder();
         while ((line = stdout.readLine()) != null) {
-            str.append(line).append("\n");
+            str.append(line).append("<br>");
             System.out.println(line);
         }
         stdout.close();
