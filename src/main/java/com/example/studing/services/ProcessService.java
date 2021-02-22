@@ -2,6 +2,7 @@ package com.example.studing.services;
 
 import com.example.studing.entity.Strategy;
 import com.example.studing.reposutory.StrategyRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,11 +39,39 @@ public class ProcessService {
         return s;
     }
 
+    public List<StringBuilder> executeTacticTest(String tacticName) {
+        List<Strategy> strategiesByTactic = strategyRepository.getStrategiesByTactic(tacticName);
+        List<StringBuilder> testResults = new ArrayList<>();
+        strategiesByTactic.forEach(strategy -> {
+            try {
+                LOG.info("Tests number: {}", testResults.size());
+                testResults.add(executeService(strategy));
+            } catch (IOException e) {
+                LOG.error("IOException", e);
+                e.printStackTrace();
+            }
+        });
+        return testResults;
+    }
+
 
     private StringBuilder executeService(Strategy strategy) throws IOException {
 
+        String techniqueNumber = strategy.getTechniqueNumber();
+
+        LOG.info("number of technique: {}", techniqueNumber);
+        String[] split = techniqueNumber.split("/.");
+
+        String command;
         // Executing the command
-        String command = "powershell.exe  Invoke-AtomicTest " + strategy.getTechniqueNumber() + " -showDetails";
+        if (split.length == 1) {
+            command = "powershell.exe Invoke-AtomicTest " + techniqueNumber;
+        } else {
+            //удаляю все нули, может сломаться на тесте номер 10
+            String numberOfTest = split[1].replaceAll("0", "");
+            command = "powershell.exe Invoke-AtomicTest " + techniqueNumber + " -TestNumbers " + numberOfTest;
+        }
+
 
         Process powerShellProcess = Runtime.getRuntime().exec(command);
         // Getting the results

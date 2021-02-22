@@ -41,6 +41,8 @@ public class TacticService {
                 .collect(Collectors.toList());
 
 
-        return strategyList;
+        return strategiesByTactic;
     }
+
+
 }
