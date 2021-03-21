@@ -43,6 +43,12 @@ public class TacticService {
 
         return strategiesByTactic;
     }
+    public List<TacticDto> findBySearch(String tacticSearch) {
+        return strategyRepository.getTacticBySearch(tacticSearch)
+                .stream()
+                .map(el -> new TacticDto(el.getTestName(), el.getTestGUID()))
+                .collect(Collectors.toList());
+    }
 
 
 }

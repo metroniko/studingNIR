@@ -2,10 +2,8 @@ package com.example.studing.entity;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "strategy")
@@ -33,4 +31,8 @@ public class Strategy {
 
     @Column(name = "executor_name")
     private String executorName;
+
+
+    @ManyToMany(mappedBy = "strategies", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    Collection<Pattern> patterns;
 }

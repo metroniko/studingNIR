@@ -45,6 +45,9 @@ public class ProcessService {
         strategiesByTactic.forEach(strategy -> {
             try {
                 LOG.info("Tests number: {}", testResults.size());
+                if (testResults.size() == 13) {
+                    System.out.println("sdfsdf");
+                }
                 testResults.add(executeService(strategy));
             } catch (IOException e) {
                 LOG.error("IOException", e);
@@ -55,22 +58,22 @@ public class ProcessService {
     }
 
 
-    private StringBuilder executeService(Strategy strategy) throws IOException {
+    public StringBuilder executeService(Strategy strategy) throws IOException {
 
         String techniqueNumber = strategy.getTechniqueNumber();
 
         LOG.info("number of technique: {}", techniqueNumber);
-        String[] split = techniqueNumber.split("/.");
+        String[] split = techniqueNumber.split("\\.");
 
         String command;
         // Executing the command
-        if (split.length == 1) {
-            command = "powershell.exe Invoke-AtomicTest " + techniqueNumber;
-        } else {
-            //удаляю все нули, может сломаться на тесте номер 10
-            String numberOfTest = split[1].replaceAll("0", "");
-            command = "powershell.exe Invoke-AtomicTest " + techniqueNumber + " -TestNumbers " + numberOfTest;
-        }
+//        if (split.length == 1) {
+            command = "powershell.exe Invoke-AtomicTest "+ strategy.getTechniqueNumber()+" -TestNumbers "+ strategy.getTestNumber()+";$Error.Count";
+//        } else {
+//            //удаляю все нули, может сломаться на тесте номер 10
+//            String numberOfTest = split[1].replaceAll("0", "");
+//            command = "powershell.exe Invoke-AtomicTest " + split[0] + " -TestNumbers " + numberOfTest;
+//        }
 
 
         Process powerShellProcess = Runtime.getRuntime().exec(command);
@@ -81,8 +84,10 @@ public class ProcessService {
         BufferedReader stdout = new BufferedReader(new InputStreamReader(
                 powerShellProcess.getInputStream()));
         StringBuilder str = new StringBuilder();
+        List<String> lineList = new ArrayList<>();
         while ((line = stdout.readLine()) != null) {
-            str.append(line).append("<br>");
+            str.append(line);
+            lineList.add(line);
             System.out.println(line);
         }
         stdout.close();
@@ -95,7 +100,6 @@ public class ProcessService {
         }
         stderr.close();
         System.out.println("Done");
-
-        return str;
+        return new StringBuilder(lineList.get(lineList.size() - 1));
     }
 }
