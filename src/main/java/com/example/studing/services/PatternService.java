@@ -50,24 +50,34 @@ public class PatternService {
         return patternDTOS;
     }
 
-    public ResultDto executePattern(PatternDTO patternDTO) {
+    public List<ResultDto> executePattern(PatternDTO patternDTO) {
         Pattern pattern = patternRepository.findByPatternName(patternDTO.getPatternName());
-        ResultDto resultDto = new ResultDto();
-        resultDto.setCountOfTechniques(patternDTO.getTacticNames().size());
+        List<ResultDto> results = new ArrayList<>();
         int prevErrors = 0;
         for (Strategy el : pattern.getStrategies()) {
+            ResultDto resultDto = new ResultDto();
+            resultDto.setTechniqueName(el.getTestName());
+            if (!el.getExecutorName().equals("powershell")) {
+                resultDto.setResultCode(2);
+                results.add(resultDto);
+                break;
+            }
             try {
                 StringBuilder stringBuilder = processService.executeService(el);
                 int errorCount = Integer.parseInt(stringBuilder.toString());
                 if (errorCount != prevErrors) {
-                    resultDto.getErrorTechniques().add(el.getTestName());
+                    resultDto.setResultCode(0);
+
+                } else {
+                    resultDto.setResultCode(1);
                 }
                 prevErrors = errorCount;
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            results.add(resultDto);
         }
-        return resultDto;
+        return results;
     }
 }

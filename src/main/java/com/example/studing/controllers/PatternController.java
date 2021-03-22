@@ -38,7 +38,7 @@ public class PatternController {
     }
 
     @PostMapping("/execute")
-    public ResultDto executePattern(@RequestBody PatternDTO patternDTO) {
+    public List<ResultDto> executePattern(@RequestBody PatternDTO patternDTO) {
         LOG.info("execute pattern: {}", patternDTO);
         return patternService.executePattern(patternDTO);
     }

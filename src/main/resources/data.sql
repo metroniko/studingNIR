@@ -27,9 +27,9 @@ CREATE TABLE strategy_in_pattern
     pattern_GUID VARCHAR(250) DEFAULT NULL
 
 );
-insert into pattern(pattern_GUID, pattern_name) values ('1', 'Higaisa Pattern');
-insert into pattern(pattern_GUID, pattern_name) values ('2', 'Calypso Pattern');
-insert into pattern(pattern_GUID, pattern_name) values ('3', 'Goblin Panda Pattern');
+insert into pattern(pattern_GUID, pattern_name) values ('1', 'Higaisa Паттерн');
+insert into pattern(pattern_GUID, pattern_name) values ('2', 'Calypso Петтерн');
+insert into pattern(pattern_GUID, pattern_name) values ('3', 'Goblin Panda Петтерн');
 
 insert into strategy_in_pattern(test_GUID, pattern_GUID) values ('114ccff9-ae6d-4547-9ead-4cd69f687306', '1');
 insert into strategy_in_pattern(test_GUID, pattern_GUID) values ('9e8894c0-50bd-4525-a96c-d4ac78ece388', '1');

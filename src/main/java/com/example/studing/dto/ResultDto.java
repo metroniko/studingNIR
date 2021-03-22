@@ -9,10 +9,10 @@ import java.util.List;
 @Getter
 @Setter
 public class ResultDto {
-    private ArrayList<String> errorTechniques;
-    private int countOfTechniques;
+    private int resultCode;
+    private String techniqueName;
 
     public ResultDto() {
-        errorTechniques = new ArrayList<>();
+
     }
 }
