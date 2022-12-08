@@ -40,6 +40,7 @@ public class PatternController {
     @PostMapping("/execute")
     public List<ResultDto> executePattern(@RequestBody PatternDTO patternDTO) {
         LOG.info("execute pattern: {}", patternDTO);
-        return patternService.executePattern(patternDTO);
+        List<ResultDto> resultDtos = patternService.executePattern(patternDTO);
+        return resultDtos;
     }
 }

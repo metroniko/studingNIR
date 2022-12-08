@@ -19,6 +19,6 @@ public interface StrategyRepository extends JpaRepository<Strategy, Integer> {
 
     Strategy getStrategyByTechniqueNumber(String techniqueNumber);
 
-    @Query(value = "select s from Strategy  s where s.techniqueNumber LIKE CONCAT('%',:techniqueNumber,'%')")
-    List<Strategy> getTacticBySearch(@Param("techniqueNumber") String techniqueNumber);
+    @Query(value = "select s from Strategy  s where s.executorName in (:names) and s.techniqueNumber LIKE CONCAT('%',:techniqueNumber,'%')")
+    List<Strategy> getTacticBySearch(@Param("techniqueNumber") String techniqueNumber, @Param("names")List<String> names);
 }

@@ -33,9 +33,9 @@ public class TacticController {
         return tacticService.getAllTacticsName();
     }
 
-    @GetMapping("/search/{tacticSearch}")
-    public List<TacticDto> getStrategiesBySearch(@PathVariable String tacticSearch) {
-        List<TacticDto> search = tacticService.findBySearch(tacticSearch);
+    @PostMapping("/search/{tacticSearch}")
+    public List<TacticDto> getStrategiesBySearch(@PathVariable String tacticSearch, @RequestBody List<String> systems) {
+        List<TacticDto> search = tacticService.findBySearch(tacticSearch, systems);
         LOG.info("searched tactics: {}", search);
         return search;
     }

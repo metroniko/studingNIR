@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,28 +55,28 @@ public class PatternService {
     public List<ResultDto> executePattern(PatternDTO patternDTO) {
         Pattern pattern = patternRepository.findByPatternName(patternDTO.getPatternName());
         List<ResultDto> results = new ArrayList<>();
+        Set<Strategy> objects = new HashSet<>(pattern.getStrategies());
         int prevErrors = 0;
-        for (Strategy el : pattern.getStrategies()) {
+        for (Strategy el : objects) {
             ResultDto resultDto = new ResultDto();
             resultDto.setTechniqueName(el.getTestName());
-            if (!el.getExecutorName().equals("powershell")) {
+            if(!el.getExecutorName().equals("powershell")) {
                 resultDto.setResultCode(2);
-                results.add(resultDto);
-                break;
-            }
-            try {
-                StringBuilder stringBuilder = processService.executeService(el);
-                int errorCount = Integer.parseInt(stringBuilder.toString());
-                if (errorCount != prevErrors) {
-                    resultDto.setResultCode(0);
+            } else {
+                try {
+                    StringBuilder stringBuilder = processService.executeService(el);
+                    int errorCount = Integer.parseInt(stringBuilder.toString());
+                    if (errorCount != prevErrors) {
+                        resultDto.setResultCode(0);
 
-                } else {
-                    resultDto.setResultCode(1);
+                    } else {
+                        resultDto.setResultCode(1);
+                    }
+                    prevErrors = errorCount;
+
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                prevErrors = errorCount;
-
-            } catch (IOException e) {
-                e.printStackTrace();
             }
             results.add(resultDto);
         }

@@ -10,11 +10,9 @@ CREATE TABLE strategy (
   test_name VARCHAR(250) DEFAULT NULL,
   test_GUID VARCHAR(250) DEFAULT NULL,
   executor_name VARCHAR(250) DEFAULT NULL
-) AS
-    SELECT *
-    FROM CSVREAD('src\main\resources\index.csv');
+);
 
-
+COPY strategy FROM 'D:\index.csv' WITH (FORMAT csv);
 CREATE TABLE pattern
 (
     pattern_GUID VARCHAR(250) DEFAULT NULL,
@@ -28,8 +26,12 @@ CREATE TABLE strategy_in_pattern
 
 );
 insert into pattern(pattern_GUID, pattern_name) values ('1', 'Higaisa Паттерн');
-insert into pattern(pattern_GUID, pattern_name) values ('2', 'Calypso Петтерн');
-insert into pattern(pattern_GUID, pattern_name) values ('3', 'Goblin Panda Петтерн');
+insert into pattern(pattern_GUID, pattern_name) values ('2', 'Calypso Пaттерн');
+insert into pattern(pattern_GUID, pattern_name) values ('3', 'Winnti Пaттерн');
+insert into pattern(pattern_GUID, pattern_name) values ('4', 'Goblin Panda Пaттерн');
+insert into pattern(pattern_GUID, pattern_name) values ('5', 'RTM Пaттерн');
+insert into pattern(pattern_GUID, pattern_name) values ('6', 'Silence Пaттерн');
+insert into pattern(pattern_GUID, pattern_name) values ('7', 'Cobalt Пaттерн');
 
 insert into strategy_in_pattern(test_GUID, pattern_GUID) values ('114ccff9-ae6d-4547-9ead-4cd69f687306', '1');
 insert into strategy_in_pattern(test_GUID, pattern_GUID) values ('9e8894c0-50bd-4525-a96c-d4ac78ece388', '1');
