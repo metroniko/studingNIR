@@ -9,5 +9,4 @@ import org.springframework.stereotype.Repository;
 public interface PatternRepository extends JpaRepository<Pattern, Integer> {
     Pattern findByPatternGUID(String guid);
     Pattern findByPatternName(String name);
-
 }

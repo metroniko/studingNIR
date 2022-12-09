@@ -21,8 +21,10 @@ CREATE TABLE pattern
 
 CREATE TABLE strategy_in_pattern
 (
+    strategy_in_pattern_id VARCHAR(250) DEFAULT NULL,
     test_GUID VARCHAR(250) DEFAULT NULL,
-    pattern_GUID VARCHAR(250) DEFAULT NULL
+    pattern_GUID VARCHAR(250) DEFAULT NULL,
+    count VARCHAR(250) DEFAULT 1
 
 );
 insert into pattern(pattern_GUID, pattern_name) values ('1', 'Higaisa Паттерн');

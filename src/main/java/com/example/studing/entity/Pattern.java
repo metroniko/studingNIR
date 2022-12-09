@@ -7,7 +7,6 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "pattern")
-@Data
 public class Pattern {
 
     @Column(name = "pattern_name")
@@ -17,12 +16,30 @@ public class Pattern {
     @Column(name = "pattern_GUID")
     private String patternGUID;
 
+    @OneToMany(mappedBy = "pattern",  fetch = FetchType.EAGER)
+    Collection<StrategyInPattern> strategiesInPattern;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "strategy_in_pattern",
-            joinColumns = {@JoinColumn(name = "pattern_GUID")},
-            inverseJoinColumns = {@JoinColumn(name = "test_GUID")}
-    )
-    Collection<Strategy> strategies;
+    public String getPatternName() {
+        return patternName;
+    }
+
+    public void setPatternName(String patternName) {
+        this.patternName = patternName;
+    }
+
+    public String getPatternGUID() {
+        return patternGUID;
+    }
+
+    public void setPatternGUID(String patternGUID) {
+        this.patternGUID = patternGUID;
+    }
+
+    public Collection<StrategyInPattern> getStrategiesInPattern() {
+        return strategiesInPattern;
+    }
+
+    public void setStrategiesInPattern(Collection<StrategyInPattern> strategiesInPattern) {
+        this.strategiesInPattern = strategiesInPattern;
+    }
 }
