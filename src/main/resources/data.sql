@@ -27,7 +27,7 @@ CREATE TABLE strategy_in_pattern
     count VARCHAR(250) DEFAULT 1
 
 );
-insert into pattern(pattern_GUID, pattern_name) values ('1', 'Higaisa Паттерн');
+insert into pattern(pattern_GUID, pattern_name) values ('1', 'Higaisa Паттерн Уровень приложения');
 insert into pattern(pattern_GUID, pattern_name) values ('2', 'Calypso Пaттерн');
 insert into pattern(pattern_GUID, pattern_name) values ('3', 'Winnti Пaттерн');
 insert into pattern(pattern_GUID, pattern_name) values ('4', 'Goblin Panda Пaттерн');

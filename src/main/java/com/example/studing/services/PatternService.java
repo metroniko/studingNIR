@@ -68,35 +68,34 @@ public class PatternService {
 
     public List<ResultDto> executePattern(PatternDTO patternDTO) {
         Pattern pattern = patternRepository.findByPatternName(patternDTO.getPatternName());
-        List<StrategyInPattern> all = strategyInPatternRepository.findAll();
+        Collection<StrategyInPattern> all = pattern.getStrategiesInPattern();
         List<ResultDto> results = new ArrayList<>();
         //TODO do execution
-//        Set<Strategy> objects = new HashSet<Strategy>(pattern.getStrategies());
-//        int prevErrors = 0;
-//        for (Strategy el : objects) {
-//            ResultDto resultDto = new ResultDto();
-//            resultDto.setTechniqueName(el.getTestName());
-//            if(!el.getExecutorName().equals("powershell")) {
-//                resultDto.setResultCode(2);
-//            } else {
-//                try {
-//                    StringBuilder stringBuilder = processService.executeService(el);
-//                    int errorCount = Integer.parseInt(stringBuilder.toString());
-//                    if (errorCount != prevErrors) {
-//                        resultDto.setResultCode(0);
-//
-//                    } else {
-//                        resultDto.setResultCode(1);
-//                    }
-//                    prevErrors = errorCount;
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            results.add(resultDto);
-//        }
-//        return results;
-        return new ArrayList<>();
+        int prevErrors = 0;
+        for (StrategyInPattern strategyInPattern : all) {
+            Strategy el = strategyInPattern.getStrategy();
+            ResultDto resultDto = new ResultDto();
+            resultDto.setTechniqueName(el.getTestName());
+            if(!el.getExecutorName().equals("powershell")) {
+                resultDto.setResultCode(2);
+            } else {
+                try {
+                    StringBuilder stringBuilder = processService.executeService(el);
+                    int errorCount = Integer.parseInt(stringBuilder.toString());
+                    if (errorCount != prevErrors) {
+                        resultDto.setResultCode(0);
+
+                    } else {
+                        resultDto.setResultCode(1);
+                    }
+                    prevErrors = errorCount;
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            results.add(resultDto);
+        }
+        return results;
     }
 }
